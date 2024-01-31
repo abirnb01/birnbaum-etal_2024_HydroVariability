@@ -1,0 +1,232 @@
+region,gcam_basin_name
+EU-15,ArcticIsl
+Canada,NWTerr
+Russia,SiberiaN
+Russia,SiberiaW
+Russia,KaraSea
+Russia,LenaR
+USA,PacArctic
+European Free Trade Association,ScndnvN
+Russia,BarentsSea
+Canada,Mackenzie
+European Free Trade Association,Iceland
+EU-15,Sweden
+EU-15,Finland
+Russia,DvinaRN
+Canada,HudsonBay
+EU-15,Scotland
+Russia,NevaR
+Russia,VolgaR
+Canada,CanAtl
+EU-12,BalticSea
+EU-15,DnkGrmCst
+Russia,NarvaR
+Canada,NelsonR
+EU-15,Ireland
+Europe_Eastern,DaugavaR
+EU-15,EngWales
+Canada,FraserR
+EU-15,EmsWeserR
+EU-12,OderR
+EU-12,WislaR
+EU-15,ElbeR
+EU-15,RhineR
+EU-12,PolandCst
+Canada,ChurchillR
+EU-12,NemanR
+EU-15,ScheldtR
+Russia,RusCstSE
+Russia,UralR
+Europe_Eastern,DnieperR
+Canada,StLwrncR
+EU-15,FranceCstW
+China,Gobi
+Russia,AmurR
+EU-15,LoireR
+Central Asia,CaspianNE
+EU-15,SeineR
+Europe_Eastern,BlackSeaN
+Russia,YeniseiR
+Europe_Eastern,DniesterR
+EU-15,ItalyCstE
+Japan,Japan
+Central Asia,CaspianE
+Russia,DonR
+EU-12,DanubeR
+EU-15,AdrBlkSea
+Russia,ObR
+EU-15,PoR
+Central Asia,AmuDaryaR
+EU-15,ItalyCstW
+EU-15,IberiaCst
+EU-15,FranceCstS
+EU-15,RhoneR
+EU-15,MeditIsl
+EU-15,Gironde
+South Korea,Korea
+China,BoHai
+EU-15,SpainCstSE
+Central Asia,LBalkash
+EU-15,TiberR
+Europe_Non_EU,BlackSeaS
+EU-15,TagusR
+Middle East,CaspianSW
+EU-15,EbroR
+EU-15,DouroR
+Europe_Non_EU,MeditE
+Central Asia,SyrDaryaR
+China,ZiyaHe
+China,ChinaCst
+China,HuangHeR
+Africa_Northern,MeditS
+EU-15,GuadianaR
+Middle East,Iran
+EU-15,GuadalqR
+Middle East,TigrEuphR
+China,Tarim
+Africa_Northern,AfrCstNW
+Africa_Eastern,NileR
+Middle East,PersianGulf
+Pakistan,IndusR
+South Asia,FarahrudR
+Mexico,MexBaja
+China,Tibet
+Middle East,RedSeaE
+Middle East,ArabianP
+Middle East,DeadSea
+Mexico,MexCstNW
+South Asia,Helmand
+Africa_Northern,SinaiP
+Middle East,EJrdnSyr
+Africa_Eastern,AfrCstNE
+Central America and Caribbean,Caribbean
+Pakistan,HamuMashR
+Taiwan,Taiwan
+Pakistan,ArabianSea
+Mexico,MexGulf
+China,Yangtze
+India,SabarmatiR
+China,XunJiang
+Southeast Asia,Hong
+India,GangesR
+Mexico,YucatanP
+China,SChinaSea
+India,MahiR
+Mexico,MexInt
+Mexico,MexCstW
+Southeast Asia,BengalBay
+India,TaptiR
+India,BengalW
+Southeast Asia,Phlppns
+India,BrahmaniR
+India,MahanadiR
+India,GodavariR
+China,Hainan
+Southeast Asia,Mekong
+Southeast Asia,VietnamCst
+China,Salween
+India,IndCstNE
+India,IndCstW
+Mexico,Papaloapan
+Mexico,RioLerma
+Mexico,RioVerde
+Mexico,GrijUsuR
+Mexico,RioBalsas
+Central America and Caribbean,CntAmer
+Mexico,Tehuantpc
+Southeast Asia,IrrawaddyR
+Southeast Asia,SittaungR
+Southeast Asia,MalaysiaP
+India,KrishnaR
+Africa_Western,AfrCstW
+South America_Northern,SAmerCstN
+Africa_Northern,AfrIntN
+India,IndCstE
+Southeast Asia,ChaoPhrR
+India,PennarR
+Southeast Asia,ThaiGulf
+Africa_Western,NigerR
+Africa_Western,LChad
+Africa_Western,SenegalR
+India,CauveryR
+South Asia,SriLanka
+India,IndCstS
+Brazil,OrinocoR
+South America_Southern,ColEcuaCst
+Indonesia,IdnE
+Southeast Asia,BorneoCstN
+Africa_Western,VoltaR
+South America_Northern,SAmerCstNE
+Africa_Western,GuineaGulf
+Indonesia,Sumatra
+Indonesia,Sulawesi
+Indonesia,Kalimantan
+Colombia,MagdalenaR
+Indonesia,IrianJaya
+Brazil,AmazonR
+South America_Southern,ChileCstS
+Africa_Eastern,ShebJubR
+Africa_Southern,AfrCstE
+Brazil,BrzCstN
+Southeast Asia,PapuaCst
+Brazil,TocantinsR
+Indonesia,JavaTimor
+Southeast Asia,SolomonIsl
+Africa_Eastern,Madagascar
+Southeast Asia,SepikR
+Africa_Eastern,RiftValley
+South America_Southern,PeruCst
+Southeast Asia,FlyR
+Africa_Southern,AngolaCst
+Africa_Western,CongoR
+Australia_NZ,AusCstN
+Southeast Asia,NewCaledn
+Brazil,BrzCstE
+Brazil,ParnaibaR
+Africa_Southern,ZambeziR
+Australia_NZ,AusCstE
+Africa_Southern,AfrCstSE
+Australia_NZ,AusCstW
+Brazil,SaoFrancR
+Australia_NZ,AusInt
+South Africa,OrangeR
+Brazil,BrzCstS
+Africa_Southern,AfrCstSW
+Africa_Southern,AfrIntS
+South Africa,AfrCstS
+South Africa,LimpopoR
+South America_Southern,LaPuna
+Australia_NZ,NewZealand
+Australia_NZ,AusCstS
+Argentina,MarChiq
+South Africa,AfrCstSSW
+Argentina,Salinas
+Brazil,RioLaPlata
+South America_Southern,ChileCstN
+Australia_NZ,MurrayDrlg
+Argentina,Pampas
+Argentina,ArgCstN
+Australia_NZ,Tasmania
+Argentina,ArgColoR
+Argentina,NegroR
+Argentina,Patagonia
+Argentina,ArgCstS
+USA,California
+USA,MissppRN
+USA,MissppRS
+USA,UsaColoRN
+USA,UsaColoRS
+USA,GreatBasin
+USA,MissouriR
+USA,ArkWhtRedR
+USA,TexasCst
+USA,UsaCstSE
+Canada,GreatLakes
+USA,OhioR
+USA,UsaPacNW
+USA,TennR
+USA,RioGrande
+USA,UsaCstNE
+USA,UsaCstE
+USA,Hawaii
+India,NarmadaR
