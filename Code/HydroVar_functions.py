@@ -1,4 +1,8 @@
 #This script contains functions for generating the figures in main_figures.py for Birnbaum et al. "Characterizing the Multisectoral Impacts of Future Global Hydrologic Variability"
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+from scipy.stats import norm
 
 def calc_NSE(obs,sim):
     """ Returns Nash-Sutcliffe Efficiency
@@ -15,91 +19,7 @@ def calc_MSE(obs,sim):
     n = len(obs)
     return (1/n)*np.sum((obs-sim)**2)
 
-def future_stoch_mvnorm(df,df_fut,m):
-    """Function that generates stochastic realizations for historical and future periods for all basins.
-    Inputs:
-    df: Pandas dataframe of annual runoff data in historical period.
-    df_fut: Pandas dataframe of annual runoff data for future period.
-    m: number of stochastic realizations.
-    """
-    
-    basin_nms = df['basin_name'].unique() #get list of basin names
-    nyears = len(df['year'].unique()) # time periods (every year)
-    nbasins = len(basin_nms) # how many basins?
-    nfyears = len(df_fut.year.unique()) # how many future time periods?
-
-    # create numpy arrays for observed, deterministic model,and future deterministic projection (across all basins)
-    q_det = np.reshape(df.groupby(['basin_id'],group_keys=False)['q_det'].apply(lambda x:x).to_numpy(),
-                       (nyears,nbasins),order='F')
-    q_obs = np.reshape(df.groupby(['basin_id'],group_keys=False)['q_obs'].apply(lambda x:x).to_numpy(),
-                       (nyears,nbasins),order='F')
-    qfut_sim = np.reshape(df_fut.groupby(['basin_id'],group_keys=False)['q_fut'].apply(lambda x:x).to_numpy(),
-                       (nfyears,nbasins),order='F')
-
-    # initialize empty storage arrays: 
-    D_syn = np.zeros([nyears+nfyears,nbasins,m]) # store simulated differences
-    Q_syn = np.zeros([nyears+nfyears,nbasins,m]) # store simulated runoff
-    yfit_stor = np.zeros([nyears+nfyears,nbasins]) # store fitted means
-    e_stor = np.zeros([nyears,nbasins]) # store errors
-    sdp_stor = np.zeros([nyears+nfyears,nbasins]) # store standard deviation of prediction
-    
-    for j in range(nbasins): # loop through all of the basins
-        boi = df[df.basin_name==basin_nms[j]] # boi = basin of interest
-        boi_fut = df_fut[df_fut.basin_name==basin_nms[j]] # boi_fut = basin of interest future data
-        q_obs_basin = boi.q_obs.to_numpy() # get historical reference annual runoff
-        q_det_basin = boi.q_det.to_numpy()  # get historical deterministic model annual runoff
-        qfut_sim_basin = boi_fut.q_fut.to_numpy() # get future projection annual runoff
-        diff_basin = q_obs_basin - q_det_basin # difference between reference and deterministic model (historical)
-
-        # fit OLS model
-        X_basin = sm.add_constant(q_det_basin) #add column of ones to array of independent variable
-
-        # calculate the mean
-        beta = np.matmul(np.linalg.inv(np.matmul(X_basin.T,X_basin)),np.matmul(X_basin.T,diff_basin)) #these are the beta coefficients for OLS Y = Xb
-        yfit = np.matmul(X_basin,beta) # model mean vector X*beta = yfit
-        e = yfit - diff_basin # model residuals (difference between model fit and observed differences)
-        sige = np.std(e) # standard deviation of model residuals
-
-        # calculate variance of prediction
-        vare = sige**2
-        varyhat = vare * np.matmul(np.matmul(X_basin,np.linalg.inv(np.matmul(X_basin.T,X_basin))),X_basin.T)
-        varypred = np.diag(varyhat+vare) #take diagonal elements of matrix
-        
-        # calculate future using model parameters from historical
-        Xfut_basin = sm.add_constant(qfut_sim_basin) # add column of ones to future data
-        yfit_fut = np.matmul(Xfut_basin,beta)   # Xfut*beta coefficients --> yfit future
-
-        # #calculate variance of prediction for future
-        varyhat_fut = vare*np.diag(np.matmul(np.matmul(Xfut_basin,np.linalg.inv(np.matmul(X_basin.T,X_basin))),Xfut_basin.T))
-        varypred_fut = varyhat_fut+vare #take diagonal elements of matrix
-        varypred_fut = np.array(varypred_fut,dtype='float')
-        
-        # save the values for yfit, model residuals e, and standard deviations of model residuals
-        yfit_stor[:,j] = np.concatenate((yfit,yfit_fut))
-        e_stor[:,j] = e
-        sdp_stor[:,j] = np.concatenate((np.sqrt(varypred),np.sqrt(varypred_fut)))
-    
-    corr_e = np.corrcoef(e_stor.T) # calculate correlation structure across basins based on historical errors
-    
-    for i in range(nyears+nfyears): # now loop through time
-        yfit_vals = yfit_stor[i,:]  # get mean vector for year i
-        
-        #build the covariance matrix for year i
-        sd_vals = sdp_stor[i,:]
-        sd_matrix = np.multiply.outer(sd_vals,sd_vals)
-        cov_matrix = np.multiply(corr_e,sd_matrix)
-            
-        # generate errors from multivariate normal distribution (e*)
-        D_syn[i,:,:] = np.random.multivariate_normal(yfit_vals,
-                                                     cov_matrix,
-                                                     m).T
-        # calculate stochastic ensemble of runoff
-        qdet_fut = np.concatenate((q_det,qfut_sim)) #add future deterministic to historical deterministic
-        Q_syn[i,:,:] = np.tile(qdet_fut[i,:],(m,1)).T+D_syn[i,:,:] # qobs* = qdet + e*
-        
-    return Q_syn #return stochastic runoff ensemble
-
-def plot_pexc(df_basin,Q_syn,df_basin_fut,Q_syn_fut,cc='#1f78b4',cc2='lightgray',plot_type='hist_det',ax=None):
+def plot_pexc(df_basin,Q_syn,df_basin_fut,Q_syn_fut,cc='#1f78b4',cc2='#a6cee3',plot_type='hist_det',ax=None):
     """Plot exceedance probability for observed, deterministic model, and min/max of stochastic realizations,
     future determinsitic model, and min/max of future stochastic ensemble (or some combination of these datasets).
     Modified from Ghazal Shabestnaipour's Flow Exceedance function developed for 
@@ -152,7 +72,7 @@ def plot_pexc(df_basin,Q_syn,df_basin_fut,Q_syn_fut,cc='#1f78b4',cc2='lightgray'
 
     # plot
     #fig,ax = plt.subplots(1,1)
-    
+    ax = ax
     ax.plot(norm.ppf(plot_df['p_exc']),plot_df['q_obs_sort'], color='black',lw=2,label='Historical Reference')
     
     if plot_type == 'hist_det' or plot_type== 'hist_stoch' or plot_type== 'all':
