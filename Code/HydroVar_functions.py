@@ -3,6 +3,8 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 from scipy.stats import norm
+from sklearn.model_selection import train_test_split
+import statsmodels.api as sm
 
 def calc_NSE(obs,sim):
     """ Returns Nash-Sutcliffe Efficiency
@@ -93,3 +95,161 @@ def plot_pexc(df_basin,Q_syn,df_basin_fut,Q_syn_fut,cc='#1f78b4',cc2='#a6cee3',p
     ax.grid()
     
     return ax
+ 
+def model_test(df,rs,m):
+    """This function is used to test performance of SWM developed in this work using a 70/30 split of 
+    training/testing data.
+    
+    Inputs:
+    df: dataframe of annual runoff with columns basin_id, basin_name, year, q_obs, q_det
+    rs: random seed
+    m: # stochastic realizations to generate
+    
+    Outputs:
+    Q_reorder: stochastic runoff output for m realizations, in time order
+    ind_list: list of indices that are training and testing
+    ntrain: # training years
+    """
+    
+    basin_nms = df['basin_name'].unique() #get names of basins
+    nyears = len(df['year'].unique()) #get number of years
+    nbasins = len(basin_nms) #get number of basins
+
+    #create numpy arrays for observed and deterministic model of historical annual runoff
+    q_obs = np.reshape(df.groupby(['basin_id'],group_keys=False)['q_obs'].apply(lambda x:x).to_numpy(),
+                       (nyears,nbasins),order='F')
+    q_det = np.reshape(df.groupby(['basin_id'],group_keys=False)['q_det'].apply(lambda x:x).to_numpy(),
+                       (nyears,nbasins),order='F')
+    q_diff = q_obs - q_det #difference between obs and det (what we're modeling)
+
+    indices = np.arange(nyears) #get numpy array of indices
+    
+    #split the data into training and test
+    X_train, X_test, y_train, y_test, ind_train, ind_test = train_test_split(q_det, q_diff, indices,test_size=0.3, random_state=rs)
+    ntrain = len(X_train) #length of training dataset
+    
+    #create empty storage arrays
+    D_syn = np.zeros([nyears,nbasins,m])
+    Q_syn = np.zeros([nyears,nbasins,m])
+    yfit_stor = np.zeros([nyears,nbasins])
+    e_stor = np.zeros([ntrain,nbasins])
+    sdp_stor = np.zeros([nyears,nbasins])
+    
+    #create ind_list variable that indicates the indices of the training and testing data (so we can put back in order)
+    ind_list = np.concatenate((ind_train,ind_test))
+    #create ind_reorder array that will be used to reorder back to original time series
+    ind_reorder = np.zeros(nyears)
+    for i in range(nyears):
+        ind_reorder[i] = np.where(ind_list==i)[0]
+    ind_reorder = ind_reorder.astype(int)
+    
+    for j in range(nbasins):#loop through all of the basins
+        q_basin_train = X_train[:,j] #select basin j training data
+        q_basin_test = X_test[:,j] #select basin j testing data
+        diff_basin_train = y_train[:,j] #select basin j differences for training data
+        diff_basin_test = y_test[:,j] #select basin j differences for testing data
+        
+        X_basin_train = sm.add_constant(q_basin_train) #add column of ones to array of independent variable
+
+        #calculate mean and variance of prediction
+        beta = np.matmul(np.linalg.inv(np.matmul(X_basin_train.T,X_basin_train)),
+                         np.matmul(X_basin_train.T,diff_basin_train)) #these are the beta coefficients for OLS Y = Xb
+        yfit_train = np.matmul(X_basin_train,beta)
+        e = yfit_train - diff_basin_train
+        sige = np.std(e) #standard deviation of fitted model minus D
+        vare = sige**2
+        varyhat_train = vare * np.matmul(np.matmul(X_basin_train,
+                                                   np.linalg.inv(np.matmul(X_basin_train.T,X_basin_train))),X_basin_train.T)
+        varypred_train = np.diag(varyhat_train+vare) #take diagonal elements of matrix
+
+        #Now apply model fit to training data onto the testing data!
+        X_basin_test = sm.add_constant(q_basin_test)
+        yfit_test = np.matmul(X_basin_test,beta)   #Xfut*beta coefficients --> yfit future
+        varyhat_test = vare*np.diag(np.matmul(np.matmul(X_basin_test,
+                                                        np.linalg.inv(np.matmul(X_basin_train.T,X_basin_train))),X_basin_test.T))
+        varypred_test = varyhat_test+vare #take diagonal elements of matrix
+        varypred_test = np.array(varypred_test,dtype='float')
+
+        # save the values for yfit, model residuals e, and standard deviations of model residuals
+        yfit_stor[:,j] = np.concatenate((yfit_train,yfit_test))
+        e_stor[:,j] = e
+        sdp_stor[:,j] = np.concatenate((np.sqrt(varypred_train),np.sqrt(varypred_test)))
+        
+    #create matrix of correlation in the errors
+    corr_e = np.corrcoef(e_stor.T) #size of e is # training years x #basins
+    
+    #reorder q_det to match ind_list order
+    q_det_reorder = q_det[ind_list]
+    
+    #loop through years to sample stochastically from errors
+    for i in range(nyears):
+        yfit_vals = yfit_stor[i,:] #get mean vector for year i
+        #build the covariance matrix for year i
+        sd_vals = sdp_stor[i,:]
+        sd_matrix = np.multiply.outer(sd_vals,sd_vals)
+        corr_e = np.corrcoef(e_stor.T)
+        cov_matrix = np.multiply(corr_e,sd_matrix)
+
+        #generate errors from multivariate normal distribution
+        D_syn[i,:,:] = np.random.multivariate_normal(yfit_vals,cov_matrix,m).T
+        Q_syn[i,:,:] = np.tile(q_det_reorder[i,:],(m,1)).T+D_syn[i,:,:]#qobs* = qsyn = qdet + D*
+    
+    #reorder Q_syn to the correct order based on ind_reorder
+    Q_reorder = Q_syn[ind_reorder]
+        
+    return Q_reorder,ind_list,ntrain
+    
+def corr_vals_stoch(Q_syn,m,nbasins):
+    """ Calculates the cross correlation coefficient across the basins for all stochastic realizations.
+        Q: input numpy array containing runoff values
+        m: # stochastic realizations
+        nbasins: # basins."""
+    corr_vals_stoch = np.zeros([nbasins,nbasins,m])
+    for k in range(m):
+        corr_vals_stoch[:,:,k] = np.corrcoef(Q_syn[:,:,k].T) #get the correlation coefficients for each stochastic realization
+    return corr_vals_stoch
+    
+def generate_xml(q_det,Qf,m,id_list,name_list,fpath,spath):
+    """This function generates CSVs for m stochastic realizations of runoff.
+    Inputs: q_det, deterministic xanthos historical runoff nyears x nbasins
+            Qf: matrix of stochastic future runoff, nfyears x m x nbasins
+            m: # realizations to generate XMLs for
+            id_list: list of basin IDs
+            name_list: list of basin names
+            fpath: location of mapping files (for basin naming conventions)
+            spath: location to save resulting CSV files
+    Returns: saves CSV that can be easily made into XML using csv_to_xml.R"""
+    for i in range(m):    #for a given realization
+        Q_mod = np.concatenate((q_det[nyears-5:,:],Qf[:,:,i]))#combine deterministic historical last 5 years with stochastic runoff
+        Q_ma = pd.DataFrame(Q_mod).rolling(5).mean() #calculate backwards rolling mean
+        Q_ma = Q_ma.iloc[5:,:] #start with value in 2020
+        Q_ma = Q_ma.to_numpy()
+        conv_Q = pd.DataFrame() #empty dataframe
+        conv_Q['basin_id'] = id_list
+        conv_Q['basin_name'] = name_list
+        Q_scen = pd.DataFrame(Q_ma[::5,:]) #select every 5 years from rolling mean
+        Q_scen = Q_scen.T
+        conv_Q = pd.concat([conv_Q,Q_scen],axis=1) #add to larger matrix
+        # create list of column names for the years
+        yrs = np.linspace(2020,2100,17).astype(int)
+        col_names = conv_Q.columns[2:].to_numpy()
+        col_dict = dict(zip(col_names,yrs))
+        conv_Q = conv_Q.rename(columns=col_dict) #rename columns
+        conv_Q = conv_Q.melt(id_vars=['basin_id','basin_name'],var_name='year',
+                            value_name = 'maxSubResource') # restructure dataframe to appropriate format for xml
+        #load in mapping CSVs - this is so we are assigning the correct region
+        basinid_gluname = pd.read_csv(fpath+'basin_to_country_mapping.csv')
+        gluname_region = pd.read_csv(fpath+'basin_to_region_mapping.csv')
+        #make dictionaries
+        bname_dict = dict(zip(basinid_gluname.GCAM_basin_ID,
+                             basinid_gluname.GLU_name))
+        basreg_dict = dict(zip(gluname_region.gcam_basin_name,
+                               gluname_region.region))
+        conv_Q['renewresource'] = conv_Q['basin_id'].map(bname_dict)
+        conv_Q['region'] = conv_Q['renewresource'].map(basreg_dict)
+        conv_Q['sub.renewable.resource'] = 'runoff'
+        conv_Q['renewresource'] = conv_Q['renewresource'] + '_water withdrawals'
+        conv_Q = conv_Q[~conv_Q.region.isna()]
+        conv_Q = conv_Q.sort_values(by=['basin_id','year'])
+        conv_Q = conv_Q.filter(['region','renewresource','sub.renewable.resource','year','maxSubResource'])
+        #conv_Q.set_index('region').to_csv(spath+'stochastic_runoff_'+str(i+1)+'.csv')
