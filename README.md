@@ -64,7 +64,7 @@ The structure of this repository is as follows:
 Any questions regarding this repository should be directed to abigail.birnbaum@tufts.edu
 
 ## References
-Abeshu, G. W., Tian, F., Wild, T., Zhao, M., Turner, S., Chowdhury, A. F. M. K., Vernon, C. R., Hu, H., Zhuang, Y., Hejazi, M., and Li, H.-Y.: Enhancing the representation of water management in global hydrological models, Geosci. Model Dev., 16, 5449–5472, https://doi.org/10.5194/gmd-16-5449-2023, 2023.
+Abeshu, G. W., Tian, F., Wild, T., Zhao, M., Turner, S., Chowdhury, A. F. M. K., … Li, H.-Y. (2023, September 22). Enhancing the representation of water management in global hydrological models. Geoscientific Model Development. Copernicus GmbH. http://doi.org/10.5194/gmd-16-5449-2023
 
 Gosling, S. N., Müller Schmied, H., Burek, P., Grillakis, M., Guillaumot, L., Hanasaki, N., … Schewe, J. (2023). ISIMIP3a Simulation Data from the Global Water Sector (Version 1.0) [Data set]. ISIMIP Repository. http://doi.org/10.48364/ISIMIP.398165
 
