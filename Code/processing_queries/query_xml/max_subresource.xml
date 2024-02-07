@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<queries>
+<aQuery>
+  <all-regions/>
+            <supplyDemandQuery title="resource maxsubresource">
+                <axis1 name="subresource">subresource</axis1>
+                <axis2 name="Year">max-annual-subresource</axis2>
+                <xPath buildList="true" dataName="output" group="false" sumAll="false">*[@type='resource']/*[@type='subresource']//max-annual-subresource/node()</xPath>
+                <comments/>
+            </supplyDemandQuery>
+ </aQuery>
+     </queries>

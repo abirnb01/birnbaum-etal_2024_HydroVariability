@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<queries>
+<aQuery>
+  <all-regions/>
+       <resourceQuery title="Water withdrawals by water source (runoff vs. groundwater)">
+           <axis1 name="subresource">subresource[@name]</axis1>
+           <axis2 name="Year">production[@year]</axis2>
+           <xPath buildList="true" dataName="input" group="false" sumAll="false">*[@type = 'resource' and contains(@name, 'water withdrawals')]//production/node()</xPath>
+           <comments/>
+       </resourceQuery>
+ </aQuery>
+     </queries>

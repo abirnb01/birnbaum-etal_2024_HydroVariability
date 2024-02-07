@@ -4,7 +4,7 @@ import pandas as pd # data analysis
 import numpy as np # numerical analysis
 
 # set path to data
-fpath = 'C:/Users/birnb/Documents/Tufts Research/GCIMS/birnbaum-etal_2024_HydroVariability/Data/Runoff_data/'
+fpath = 'C:/Users/birnb/Documents/Tufts Research/GCIMS/birnbaum-etal_2024_HydroVariability/Data/Runoff_data/Raw_data/'
 hist_obs = 'watergap2-2e_gswp3-w5e5_obsclim_histsoc_nowatermgt_qtot_basin_km3-per-mth_1901_2019.csv'
 hist_mod = 'Basin_runoff_km3permonth_pm_abcd_mrtm_watergap2-2e_gswp3-w5e5_1901_2019.csv'
 upcol_mod = 'gutacalib_220.npy' #recalibrated for Upper Colorado

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+	<queries>
+      <aQuery>
+
+       <marketQuery title="Water Price - by Basin">
+           <axis1 name="market">market</axis1>
+           <axis2 name="Year">market</axis2>
+           <xPath buildList="true" dataName="price" group="false" sumAll="false">Marketplace/market[true() and contains(@name,'water withdrawals')]/price/node()</xPath>
+           <comments/>
+       </marketQuery>
+
+      </aQuery>
+     </queries>
