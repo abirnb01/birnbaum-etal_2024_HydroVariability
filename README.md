@@ -1,7 +1,7 @@
 # birnbaum-etal_2024_HydroVariability
 This repository contains the code used to generate the data and figures in the paper "Characterizing the Multisectoral Impacts of Future Global Hydrologic Variability" by Birnbaum et al., which is currently submitted to a journal for review.
 
-## Reproduce my results
+## Reproduce our results
 This study consists of two primary analyses:
 1. running and evaluating a stochastic watershed model for annual runoff for 235 water basins with global coverage for both historical (1901-2019) and future (2020-2100) time periods
 2. running a selection of 100 future runoff scenarios through the Global Change Analysis Model (GCAM) which represents the interactions between socioeconomic-climate-land-energy-water systems and exploring the multisector impacts of future hydrologic variability.
