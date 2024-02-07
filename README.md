@@ -45,7 +45,7 @@ The structure of this repository is as follows:
      - fut_annual_gfdl_ssp370.csv: CSV file of future projection from Xanthos (climate forcing GFDL-ESM4 with SSP370 scenario) 2020-2100, used in main_figures.ipynb
      - hist_annual.csv: CSV file of historical reference (WaterGap2) and Xanthos 1901-2019, used in main_figures.ipynb
      - Raw_data: folder containing raw monthly runoff at basin-scale
-       - Basin_runoff_km3permonth_gfdl-esm4_r1i1p1f1_ssp370_1850_2100.csv: Xanthos output for future period, monthly runoff at GCAM basin scale. Climate forcing data from CMIP6 GFDL-ESM4 from Krasting et al. (2018)
+       - Basin_runoff_km3permonth_gfdl-esm4_r1i1p1f1_ssp370_1850_2100.csv: Xanthos output for future period, monthly runoff at GCAM basin scale from Zhao et al (2023). Climate forcing data is from CMIP6 GFDL-ESM4 from Krasting et al. (2018)
        - Basin_runoff_km3permonth_pm_abcd_mrtm_watergap2-2e_gswp3-w5e5_1901_2019.csv: Xanthos output for historical period, monthly runoff at GCAM basin scale
        - gutacalib_220.npy: recalibrated Upper Colorado basin historical runoff for Xanthos
        - watergap2-2e_gswp3-w5e5_obsclim_histsoc_nowatermgt_qtot_basin_km3-per-mth_1901_2019.csv: WaterGap2 output for historical period, monthly runoff at GCAM basin scale, processed version of data that is originally from Gosling et al (2023).
@@ -67,3 +67,5 @@ Any questions regarding this repository should be directed to abigail.birnbaum@t
 Gosling, S. N., Müller Schmied, H., Burek, P., Grillakis, M., Guillaumot, L., Hanasaki, N., … Schewe, J. (2023). ISIMIP3a Simulation Data from the Global Water Sector (Version 1.0) [Data set]. ISIMIP Repository. http://doi.org/10.48364/ISIMIP.398165
 
 Krasting, J. P., John, J. G., Blanton, C., McHugh, C., Nikonov, S., Radhakrishnan, A., … Zhao, M. (2018). NOAA-GFDL GFDL-ESM4 model output prepared for CMIP6 CMIP (Version 20230220) [Data set]. Earth System Grid Federation. http://doi.org/10.22033/ESGF/CMIP6.1407
+
+Zhao, M., Wild, T., & Vernon, C. (2023). Xanthos Output Dataset Under ISIMIP3b Selected CMIP6 Scenarios: 1850 - 2100 [Data set]. MultiSector Dynamics - Living, Intuitive, Value-adding, Environment. http://doi.org/10.57931/2280839
