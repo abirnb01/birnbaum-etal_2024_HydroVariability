@@ -1,4 +1,4 @@
-# birnbaum-etal_2024_HydroVariability DOI:10.5281/zenodo.10631534
+# birnbaum-etal_2024_HydroVariability [![DOI](https://zenodo.org/badge/751070219.svg)](https://zenodo.org/doi/10.5281/zenodo.10631533)
 This repository contains the code used to generate the data and figures in the paper "Characterizing the Multisectoral Impacts of Future Global Hydrologic Variability" by Birnbaum et al., which is currently submitted to a journal for review.
 
 ## Reproduce our results
