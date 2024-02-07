@@ -6,7 +6,7 @@ This study consists of two primary analyses:
 1. running and evaluating a stochastic watershed model for annual runoff for 235 water basins with global coverage for both historical (1901-2019) and future (2020-2100) time periods
 2. running a selection of 100 future runoff scenarios through the Global Change Analysis Model (GCAM) which represents the interactions between socioeconomic-climate-land-energy-water systems and exploring the multisector impacts of future hydrologic variability.
 
-To run the stochastic watershed model and replicate Figures 1-5, follow the instructions in Code/main_figures.ipynb (Jupyter notebook), described in more detail below. In addition, Code/stochastic_error_model.py can be used to run the stochastic model without generating any figures for a user-specified number of stochastic realizations. The inputs to the stochastic error model (annual runoff for 235 GCAM basins for historical and future time periods) is in Data/Runoff_data. The code used to process these inputs from raw data (Data/Runoff_data/Raw_data) is in Code/AnnualizeRunoffData.py.
+To run the stochastic watershed model and replicate Figures 1-5, follow the instructions in Code/main_figures.ipynb. In addition, Code/stochastic_error_model.py can be used to run the stochastic model without generating any figures for a user-specified number of stochastic realizations. The inputs to the stochastic error model (annual runoff for 235 GCAM basins for historical and future time periods) is in Data/Runoff_data. The code used to process these inputs from raw data (Data/Runoff_data/Raw_data) is in Code/AnnualizeRunoffData.py.
 
 To select the scenarios to run through GCAM, we used the Code/stochastic_error_model.py for 10,000 realizations and selected 100 scenarios evenly across the distribution of cumulative runoff 2070-2100 in the Indus basin. The code used to select the scenarios and process the output to the appropriate CSV format for GCAM is available in the Jupyter notebook Code/supplement_figures.ipynb. The CSV files are available in Data/Runoff_data/SWM_csv.
 
@@ -24,6 +24,7 @@ The structure of this repository is as follows:
    *  stochastic_error_model.py: Python script used to run stochastic watershed model for user-specified number of realizations. Used in main_figures.ipynb and supplement_figures.ipynb
    *  supplement_figures.ipynb: Jupyter Notebook with Python code used to produce supplemental figures in manuscript
    *  create_config_files.ipynb: Jupyter Notebook with Python code used to create the 100 GCAM configuration files
+   *  query_request.R: R script used to query GCAM database outputs from all scenarios and save in CSV format, originally run on HPC cluster.
      
 2. Data:
    * Runoff_data: folder containing annual runoff at basin scale
