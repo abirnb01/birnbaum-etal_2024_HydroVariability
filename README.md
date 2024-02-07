@@ -65,4 +65,5 @@ Any questions regarding this repository should be directed to abigail.birnbaum@t
 
 ## References
 Gosling, S. N., Müller Schmied, H., Burek, P., Grillakis, M., Guillaumot, L., Hanasaki, N., … Schewe, J. (2023). ISIMIP3a Simulation Data from the Global Water Sector (Version 1.0) [Data set]. ISIMIP Repository. http://doi.org/10.48364/ISIMIP.398165
+
 Krasting, J. P., John, J. G., Blanton, C., McHugh, C., Nikonov, S., Radhakrishnan, A., … Zhao, M. (2018). NOAA-GFDL GFDL-ESM4 model output prepared for CMIP6 CMIP (Version 20230220) [Data set]. Earth System Grid Federation. http://doi.org/10.22033/ESGF/CMIP6.1407
