@@ -1,4 +1,4 @@
-# birnbaum-etal_2024_HydroVariability [![DOI](https://zenodo.org/badge/751070219.svg)](https://zenodo.org/doi/10.5281/zenodo.10631533)
+# birnbaum-etal_2024_HydroVariability
 This repository contains the code used to generate the data and figures in the paper "Characterizing the Multisectoral Impacts of Future Global Hydrologic Variability" by Birnbaum et al., which is currently submitted to a journal for review.
 
 ## Reproduce our results
@@ -10,7 +10,7 @@ To run the stochastic watershed model and replicate Figures 1-5, follow the inst
 
 To select the scenarios to run through GCAM, we used the Code/stochastic_error_model.py for 10,000 realizations and selected 100 scenarios evenly across the distribution of cumulative runoff 2070-2100 in the Indus basin. The code used to select the scenarios and process the output to the appropriate CSV format for GCAM is available in the Jupyter notebook Code/supplement_figures.ipynb. The CSV files are available in Data/Runoff_data/SWM_csv.
 
-To run the 100 runoff scenarios through GCAM, we first convert the runoff from CSV format to XML using Code/csv_to_xml.R. The resulting XML files are available in Data/Runoff_data/SWM_xml. We then generate a unique GCAM v6.0 configuration file for each scenario. The code used to generate these configuration files is in Code/create_config_files.ipynb and the resulting configuration files are in Data/GCAM_config_files. To install and run GCAM scenarios, follow the instructions on https://github.com/JGCRI/gcam-core/releases/tag/gcam-v6.0. Ensure that the calibration period in GCAM uses the same historical data for runoff as the Xanthos version included here (the default in GCAM v6.0 is different dataset). 
+To run the 100 runoff scenarios through GCAM, we first convert the runoff from CSV format to XML using Code/csv_to_xml.R. The resulting XML files are available in Data/Runoff_data/SWM_xml. We then generate a unique GCAM v6.0 configuration file for each scenario. The code used to generate these configuration files is in Code/create_config_files.ipynb and the resulting configuration files are in Data/GCAM_config_files. To install and run GCAM scenarios, follow the instructions on https://github.com/JGCRI/gcam-core/releases/tag/gcam-v6.0.
 
 We use the Code/processing_queries/query_request.R script to query relavent GCAM outputs which are stored in pickle or CSV format in Data/GCAM_queries in the corresponding Zenodo data repository (too large to store on GitHub). The code used to produce Figures 6-8 is in Code/main_figures.ipynb. Code used to produce all supplement figures is in Code/supplement_figures.ipynb.
 
@@ -47,7 +47,7 @@ The structure of this repository is as follows:
      - Raw_data: folder containing raw monthly runoff at basin-scale
        - Basin_runoff_km3permonth_gfdl-esm4_r1i1p1f1_ssp370_1850_2100.csv: Xanthos output for future period, monthly runoff at GCAM basin scale from Zhao et al (2023). Climate forcing data is from CMIP6 GFDL-ESM4 from Krasting et al. (2018)
        - Basin_runoff_km3permonth_pm_abcd_mrtm_watergap2-2e_gswp3-w5e5_1901_2019.csv: Xanthos output for historical period, monthly runoff at GCAM basin scale
-       - gutacalib_220.npy: recalibrated Upper Colorado basin historical runoff for Xanthos from Abeshu et al (2023)
+       - gutacalib_220.npy: recalibrated Upper Colorado basin historical runoff for Xanthos
        - watergap2-2e_gswp3-w5e5_obsclim_histsoc_nowatermgt_qtot_basin_km3-per-mth_1901_2019.csv: WaterGap2 output for historical period, monthly runoff at GCAM basin scale, processed version of data that is originally from Gosling et al (2023).
      - SWM_csv: folder containing CSVs of stochastic watershed model output. There are 100 CSVs, one for each scenario
      - SWM_xml: folder containing XMLs of stochastic watershed model output (GCAM input in XML format). There are 100 XMLs, one for each scenario
@@ -64,8 +64,6 @@ The structure of this repository is as follows:
 Any questions regarding this repository should be directed to abigail.birnbaum@tufts.edu
 
 ## References
-Abeshu, G. W., Tian, F., Wild, T., Zhao, M., Turner, S., Chowdhury, A. F. M. K., … Li, H.-Y. (2023, September 22). Enhancing the representation of water management in global hydrological models. Geoscientific Model Development. Copernicus GmbH. http://doi.org/10.5194/gmd-16-5449-2023
-
 Gosling, S. N., Müller Schmied, H., Burek, P., Grillakis, M., Guillaumot, L., Hanasaki, N., … Schewe, J. (2023). ISIMIP3a Simulation Data from the Global Water Sector (Version 1.0) [Data set]. ISIMIP Repository. http://doi.org/10.48364/ISIMIP.398165
 
 Krasting, J. P., John, J. G., Blanton, C., McHugh, C., Nikonov, S., Radhakrishnan, A., … Zhao, M. (2018). NOAA-GFDL GFDL-ESM4 model output prepared for CMIP6 CMIP (Version 20230220) [Data set]. Earth System Grid Federation. http://doi.org/10.22033/ESGF/CMIP6.1407
