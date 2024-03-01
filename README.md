@@ -1,5 +1,5 @@
 # birnbaum-etal_2024_HydroVariability
-This repository contains the code used to generate the data and figures in the paper "Characterizing the Multisectoral Impacts of Future Global Hydrologic Variability" by Birnbaum et al., which is currently submitted to a journal for review.
+This repository contains the code used to generate the data and figures in the paper "Characterizing the Multisectoral Impacts of Future Global Hydrologic Variability" by Birnbaum et al., which is currently submitted for review.
 
 ## Reproduce our results
 This study consists of two primary analyses:
@@ -8,11 +8,11 @@ This study consists of two primary analyses:
 
 To run the stochastic watershed model and replicate Figures 1-5, follow the instructions in Code/main_figures.ipynb. In addition, Code/stochastic_error_model.py can be used to run the stochastic model without generating any figures for a user-specified number of stochastic realizations. The inputs to the stochastic error model (annual runoff for 235 GCAM basins for historical and future time periods) is in Data/Runoff_data. The code used to process these inputs from raw data (Data/Runoff_data/Raw_data) is in Code/AnnualizeRunoffData.py.
 
-To select the scenarios to run through GCAM, we used the Code/stochastic_error_model.py for 10,000 realizations and selected 100 scenarios evenly across the distribution of cumulative runoff 2070-2100 in the Indus basin. The code used to select the scenarios and process the output to the appropriate CSV format for GCAM is available in the Jupyter notebook Code/supplement_figures.ipynb. The CSV files are available in Data/Runoff_data/SWM_csv.
+To select the scenarios to run through GCAM, we used the Code/stochastic_error_model.py for 10,000 realizations and selected 100 scenarios evenly across the distribution of cumulative runoff 2070-2100 in the Indus basin. The code used to select the scenarios and process the output to the appropriate CSV format for GCAM is available in the Jupyter notebooks Code/pick_scenarios.ipynb and Code/supplement_figures.ipynb. An example of the csv output is available in Data/GCAM_files/stochastic_runoff_1.csv.
 
-To run the 100 runoff scenarios through GCAM, we first convert the runoff from CSV format to XML using Code/csv_to_xml.R. The resulting XML files are available in Data/Runoff_data/SWM_xml. We then generate a unique GCAM v6.0 configuration file for each scenario. The code used to generate these configuration files is in Code/create_config_files.ipynb and the resulting configuration files are in Data/GCAM_config_files. To install and run GCAM scenarios, follow the instructions on https://github.com/JGCRI/gcam-core/releases/tag/gcam-v6.0.
+To run the 100 runoff scenarios through GCAM, we first convert the runoff from CSV format to XML using Code/csv_to_xml.R. An example of the resulting XML file format is available in Data/GCAM_files/stochastic_runoff_1.xml. We then generate a unique GCAM v6.0 configuration file for each scenario. The code used to generate these configuration files is in Code/create_config_files.ipynb and an example configuration file is in Data/GCAM_files/configuration_stochastic_runoff_1.xml. The default GCAM configuration file with no changes is available at Data/GCAM_files/configuration_ref.xml. To install and run GCAM scenarios, follow the instructions on https://github.com/JGCRI/gcam-core/releases/tag/gcam-v6.0.
 
-We use the Code/processing_queries/query_request.R script to query relavent GCAM outputs which are stored in pickle or CSV format in Data/GCAM_queries in the corresponding Zenodo data repository (too large to store on GitHub). The code used to produce Figures 6-8 is in Code/main_figures.ipynb. Code used to produce all supplement figures is in Code/supplement_figures.ipynb.
+We use the Code/processing_queries/query_request.R script to query relavent GCAM outputs which are stored in pickle or CSV format in Data/GCAM_queries in the corresponding Zenodo data repository (too large to store on GitHub). The code used to produce Figures 6-7 is in Code/main_figures.ipynb. Code used to produce all supplement figures is in Code/supplement_figures.ipynb.
 
 ## Contents
 The structure of this repository is as follows:
@@ -26,16 +26,14 @@ The structure of this repository is as follows:
    *  stochastic_error_model.py: Python script used to run stochastic watershed model for user-specified number of realizations. Used in main_figures.ipynb and supplement_figures.ipynb
    *  supplement_figures.ipynb: Jupyter Notebook with Python code used to produce supplemental figures in manuscript
    *  processing_queries: folder containing code/scripts relavent to processing GCAM queries
-     - agprod_allbasin_script.py: Python script used to combine CSVs/process ag production query for all scenarios
      - cleanup_queries.py: Python script containing code that was used to pickle queries or "clean up" results into readable format
      - landalloc_allbasin_script.py: Python script used to combine CSVs/process land allocation query for all scenarios
      - query_request.R: R script used to query GCAM database outputs from all scenarios and save in CSV format, originally run on HPC cluster.
      - query_script.py: Python script to CSVs of query output for all scenarios
      - query_xml: folder containing XMLs of individual GCAM queries
-         - ag_production_allbasin.xml: query for ag production in all GCAM basins
          - land_alloc.xml: query for detailed land allocation for all GCAM basins
+         - land_alloc_indus.xml: query for detailed land allocation for Indus basin
          - max_subresource.xml: query used for getting maximum annual runoff for all GCAM basins
-         - primary_energy.xml: query for primary energy consumption in all GCAM regions
          - water_price.xml: query used for extracting shadow price of water for all GCAM basins
          - water_withdrawals_irrig.xml: query for water withdrawals for irrigation
          - water_withdrawals_source.xml: query for water withdrawals split by runoff versus groundwater
@@ -49,14 +47,12 @@ The structure of this repository is as follows:
        - Basin_runoff_km3permonth_pm_abcd_mrtm_watergap2-2e_gswp3-w5e5_1901_2019.csv: Xanthos output for historical period, monthly runoff at GCAM basin scale
        - gutacalib_220.npy: recalibrated Upper Colorado basin historical runoff for Xanthos
        - watergap2-2e_gswp3-w5e5_obsclim_histsoc_nowatermgt_qtot_basin_km3-per-mth_1901_2019.csv: WaterGap2 output for historical period, monthly runoff at GCAM basin scale, processed version of data that is originally from Gosling et al (2023).
-     - SWM_csv: folder containing CSVs of stochastic watershed model output. There are 100 CSVs, one for each scenario
-     - SWM_xml: folder containing XMLs of stochastic watershed model output (GCAM input in XML format). There are 100 XMLs, one for each scenario
    *  Shapefiles_for_mapping: folder containing shapefiles and data used to make map figures
      - basin_to_country_mapping.csv: CSV file used to map GCAM basins to countries, used in supplement_figures.ipynb to create appropriate CSV format of runoff output for conversion to XML
      - basin_to_region_mapping.csv: CSV file used to map GCAM basins to regions, used in supplement_figures.ipynb to create appropriate CSV format of runoff output for conversion to XML
      - gcam_basins.shp: shapefile of 235 GCAM basins
      - gcam_regions.shp: shapefile of 32 GCAM regions
-   *  GCAM_config_files: folder containing 100 GCAM configuration files, one for each runoff scenario run through GCAM
+   *  GCAM_files: folder containing example GCAM configuration file, csv of stochastic runoff, xml of stochastic runoff, and GCAM reference scenario configuration file.
    *  GCAM_queries: folder containing processed query output from 100 GCAM scenarios. Available on corresponding Zenodo data repository.
 
 3. README.md: this document, which contains instructions for reproducing the results of this study and the contents of the data repository.
