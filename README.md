@@ -23,8 +23,10 @@ The structure of this repository is as follows:
    *  hydrovar_environment.yml: yml file that contains all the packages/appropriate versions for Python needed to run main_figures.ipynb and supplement_figures.ipynb
    *  HydroVar_functions.py: Python script with functions used in main_figurs.ipynb and supplement_figures.ipynb, including calculating NSE and spatial correlation matrix
    *  main_figures.ipynb: Jupyter Notebook with Python code used to produce figures in main text of manuscript
+   *  pick_scenarios.ipynb: Jupyter Notebook with Python code used to pick 100 scenarios out of 10,000 ensemble members to run through GCAM
    *  stochastic_error_model.py: Python script used to run stochastic watershed model for user-specified number of realizations. Used in main_figures.ipynb and supplement_figures.ipynb
    *  supplement_figures.ipynb: Jupyter Notebook with Python code used to produce supplemental figures in manuscript
+   *  update_colorado_iceland_basins.ipynb: Jupyter Notebook with Python code used to update historical deterministic model for Upper Colorado and Iceland basins
    *  processing_queries: folder containing code/scripts relavent to processing GCAM queries
      - cleanup_queries.py: Python script containing code that was used to pickle queries or "clean up" results into readable format
      - landalloc_allbasin_script.py: Python script used to combine CSVs/process land allocation query for all scenarios
@@ -45,7 +47,7 @@ The structure of this repository is as follows:
      - Raw_data: folder containing raw monthly runoff at basin-scale
        - Basin_runoff_km3permonth_gfdl-esm4_r1i1p1f1_ssp370_1850_2100.csv: Xanthos output for future period, monthly runoff at GCAM basin scale from Zhao et al (2023). Climate forcing data is from CMIP6 GFDL-ESM4 from Krasting et al. (2018)
        - Basin_runoff_km3permonth_pm_abcd_mrtm_watergap2-2e_gswp3-w5e5_1901_2019.csv: Xanthos output for historical period, monthly runoff at GCAM basin scale
-       - gutacalib_220.npy: recalibrated Upper Colorado basin historical runoff for Xanthos
+       - Basin_guta-runoff_km3peryear_watergap2-2e_gswp3-w5e5_historical_1901_2019: Xanthos output from Guta Abeshu used to recalibrate Upper Colorado and Iceland basins
        - watergap2-2e_gswp3-w5e5_obsclim_histsoc_nowatermgt_qtot_basin_km3-per-mth_1901_2019.csv: WaterGap2 output for historical period, monthly runoff at GCAM basin scale, processed version of data that is originally from Gosling et al (2023).
    *  Shapefiles_for_mapping: folder containing shapefiles and data used to make map figures
      - basin_to_country_mapping.csv: CSV file used to map GCAM basins to countries, used in supplement_figures.ipynb to create appropriate CSV format of runoff output for conversion to XML
