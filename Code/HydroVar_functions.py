@@ -75,14 +75,14 @@ def plot_pexc(df_basin,Q_syn,df_basin_fut,Q_syn_fut,cc='#1f78b4',cc2='#a6cee3',p
     # plot
     #fig,ax = plt.subplots(1,1)
     ax = ax
-    ax.plot(norm.ppf(plot_df['p_exc']),plot_df['q_obs_sort'], color='black',lw=2,label='Historical Reference')
+    ax.plot(norm.ppf(plot_df['p_exc']),plot_df['q_obs_sort'], color='black',lw=2,label='Reference')
     
     if plot_type == 'hist_det' or plot_type== 'hist_stoch' or plot_type== 'all':
-        ax.plot(norm.ppf(plot_df['p_exc']),plot_df['q_det_sort'], color=cc,lw=2,label='Historical Deterministic Model')
+        ax.plot(norm.ppf(plot_df['p_exc']),plot_df['q_det_sort'], color=cc,lw=2,label='Deterministic Model')
     if plot_type == 'hist_stoch' or plot_type== 'all':
         ax.fill_between(norm.ppf(plot_df['p_exc']),S_max,S_min,color=cc2,alpha=0.5,label='Historical Stochastic Ensemble')
     if plot_type == 'fut_det' or plot_type=='fut_stoch' or plot_type== 'all':
-        ax.plot(norm.ppf(plot_df_fut['p_exc']),plot_df_fut['q_fut_sort'], color='#e31a1c',lw=2,label='Future Deterministic Projection')
+        ax.plot(norm.ppf(plot_df_fut['p_exc']),plot_df_fut['q_fut_sort'], color='#e31a1c',lw=2,label='Deterministic Projection')
     if plot_type == 'fut_stoch' or plot_type=='all':
         ax.fill_between(norm.ppf(plot_df_fut['p_exc']),Sfut_max,Sfut_min,color='#fb9a99',alpha=0.3,label='Future Stochastic Ensemble')
   

@@ -10,7 +10,6 @@ def future_stoch_mvnorm(df,df_fut,m):
     df_fut: Pandas dataframe of annual runoff data for future period.
     m: number of stochastic realizations.
     """
-    m = 1000
 
     basin_nms = df['basin_name'].unique() #get list of basin names
     nyears = len(df['year'].unique()) # time periods (every year)
